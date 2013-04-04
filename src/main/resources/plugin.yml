@@ -1,0 +1,38 @@
+name: ${project.name}
+main: com.thevoxelbox.bukkit.doop.VoxelDoop
+version: ${project.version}
+website: http://thevoxelbox.com
+author: TheCryoKnight
+description: >
+             Provides a quick and easy way to duplicate blocks with no chat commands. Also includes a suite of efficient hand tools for manual building.
+commands:
+  godsays:
+    description: Speaks to the entire server with the voice of GOD.
+    permission: voxeldoop.divine
+    usage: |
+           /<command> what you want god to say.
+           Example: /<command> GREETINGS, MY CHILDREN.
+  evilsays:
+    description: Speaks to the entire server with the voice of GOD.
+    permission: voxeldoop.divine
+    usage: |
+           /<command> what you want god to say.
+           Example: /<command> GREETINGS, MY CHILDREN.
+  scisays:
+    description: Speaks to the entire server with the voice of GOD.
+    permission: voxeldoop.divine
+    usage: |
+           /<command> what you want god to say.
+           Example: /<command> GREETINGS, MY CHILDREN.
+  phisays:
+    description: Speaks to the entire server with the voice of GOD.
+    permission: voxeldoop.divine
+    usage: |
+           /<command> what you want god to say.
+           Example: /<command> GREETINGS, MY CHILDREN.
+  ignsays:
+    description: Speaks to the entire server with the voice of GOD.
+    permission: voxeldoop.divine
+    usage: |
+           /<command> what you want god to say.
+           Example: /<command> GREETINGS, MY CHILDREN.
