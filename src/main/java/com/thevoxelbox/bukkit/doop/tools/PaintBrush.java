@@ -6,14 +6,15 @@ import java.util.List;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.block.Block;
+import org.bukkit.block.BlockFace;
 import org.bukkit.entity.Player;
 import org.bukkit.event.block.Action;
-import org.bukkit.event.block.BlockBreakEvent;
 import org.bukkit.event.block.BlockPlaceEvent;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 
 import com.thevoxelbox.bukkit.doop.ITool;
+
 
 public class PaintBrush implements ITool
 {
@@ -32,7 +33,7 @@ public class PaintBrush implements ITool
     }
 
     @Override
-    public void onUse(final Block targetBlock, final ItemStack itemUsed, final Player player, final Action action)
+    public void onUse(final Block targetBlock, final BlockFace face, final ItemStack itemUsed, final Player player, final Action action)
     {
         if (!itemUsed.hasItemMeta())
         {
@@ -49,12 +50,6 @@ public class PaintBrush implements ITool
             if (targetMat != null)
             {
                 final byte data = this.getDataFromBrush(itemUsed.getItemMeta());
-                final BlockBreakEvent breakEvent = new BlockBreakEvent(targetBlock, player);
-                Bukkit.getPluginManager().callEvent(breakEvent);
-                if (breakEvent.isCancelled())
-                {
-                    return;
-                }
                 final BlockPlaceEvent placeEvent = new BlockPlaceEvent(targetBlock, targetBlock.getState(), null, new ItemStack(targetMat, 1), player, true);
                 Bukkit.getPluginManager().callEvent(placeEvent);
                 if (placeEvent.isCancelled())
@@ -67,9 +62,9 @@ public class PaintBrush implements ITool
     }
 
     @Override
-    public void onRangedUse(Block targetBlock, final ItemStack itemUsed, Player player, Action action)
+    public void onRangedUse(Block targetBlock, final BlockFace face, final ItemStack itemUsed, Player player, Action action)
     {
-        if (action == Action.LEFT_CLICK_BLOCK || action == Action.LEFT_CLICK_AIR)
+        if ((action == Action.LEFT_CLICK_BLOCK || action == Action.LEFT_CLICK_AIR) && !targetBlock.isLiquid())
         {
             this.setBrushMeterial(itemUsed, itemUsed.getItemMeta(), targetBlock.getType(), targetBlock.getData());
         }

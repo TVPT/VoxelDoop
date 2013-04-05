@@ -4,12 +4,14 @@ import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
-import org.bukkit.inventory.ItemStack;
 import org.bukkit.plugin.java.JavaPlugin;
 
+import com.thevoxelbox.bukkit.doop.tools.DataSpanner;
 import com.thevoxelbox.bukkit.doop.tools.DoopStick;
-import com.thevoxelbox.bukkit.doop.tools.JackHammer;
+import com.thevoxelbox.bukkit.doop.tools.Hammer;
+import com.thevoxelbox.bukkit.doop.tools.Jackhammer;
 import com.thevoxelbox.bukkit.doop.tools.PaintBrush;
+import com.thevoxelbox.bukkit.doop.tools.Pliers;
 
 public class VoxelDoop extends JavaPlugin
 {
@@ -26,9 +28,13 @@ public class VoxelDoop extends JavaPlugin
     public void onEnable()
     {
         Bukkit.getPluginManager().registerEvents(this.listener, this);
-        this.toolManager.registerTool(new JackHammer());
+        this.toolManager.registerTool(new Jackhammer());
         this.toolManager.registerTool(new PaintBrush());
         this.toolManager.registerTool(new DoopStick());
+        this.toolManager.registerTool(new Hammer());
+        this.toolManager.registerTool(new Pliers());
+        this.toolManager.registerTool(new DataSpanner());
+
     }
 
     @Override
@@ -113,119 +119,6 @@ public class VoxelDoop extends JavaPlugin
             return true;
         }
         return false;
-    }
-
-    public static String getFriendlyNote(byte note)
-    {
-        String notestr = "";
-        switch ((int) note) {
-            case 0:
-                notestr = "F#";
-                break;
-            case 1:
-                notestr = "G";
-                break;
-            case 2:
-                notestr = "G#";
-                break;
-            case 3:
-                notestr = "A";
-                break;
-            case 4:
-                notestr = "A#";
-                break;
-            case 5:
-                notestr = "B";
-                break;
-            case 6:
-                notestr = "C";
-                break;
-            case 7:
-                notestr = "C#";
-                break;
-            case 8:
-                notestr = "D";
-                break;
-            case 9:
-                notestr = "D#";
-                break;
-            case 10:
-                notestr = "E";
-                break;
-            case 11:
-                notestr = "F";
-                break;
-            case 12:
-                notestr = "F#";
-                break;
-            case 13:
-                notestr = "G";
-                break;
-            case 14:
-                notestr = "G#";
-                break;
-            case 15:
-                notestr = "A";
-                break;
-            case 16:
-                notestr = "A#";
-                break;
-            case 17:
-                notestr = "B";
-                break;
-            case 18:
-                notestr = "C";
-                break;
-            case 19:
-                notestr = "C#";
-                break;
-            case 20:
-                notestr = "D";
-                break;
-            case 21:
-                notestr = "D#";
-                break;
-            case 22:
-                notestr = "E";
-                break;
-            case 23:
-                notestr = "F";
-                break;
-            case 24:
-                notestr = "F#";
-        }
-
-        return notestr;
-    }
-
-    public static ItemStack doopfix(int material, byte data)
-    {
-        switch (material)
-        {
-            case 55:
-                return new ItemStack(331, 64, data);
-            case 59:
-                return new ItemStack(295, 64, data);
-            case 68:
-                return new ItemStack(323, 64, data);
-            case 63:
-                return new ItemStack(323, 64, data);
-            case 75:
-                return new ItemStack(76, 64, data);
-            case 64:
-                return new ItemStack(324, 64, data);
-            case 71:
-                return new ItemStack(330, 64, data);
-            case 83:
-                return new ItemStack(338, 64, data);
-            case 93:
-                return new ItemStack(356, 64, data);
-            case 94:
-                return new ItemStack(356, 64, data);
-            case 26:
-                return new ItemStack(355, 64, data);
-        }
-        return null;
     }
 
     /**

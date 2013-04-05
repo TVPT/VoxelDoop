@@ -36,7 +36,7 @@ public class DoopListener implements Listener
             }
             else
             {
-                if (this.plugin.getToolManager().onUse(event.getPlayer(), event.getItem(), event.getAction(), event.getClickedBlock()))
+                if (this.plugin.getToolManager().onUse(event.getPlayer(), event.getItem(), event.getAction(), event.getClickedBlock(), event.getBlockFace()))
                 {
                     event.setCancelled(true);
                 }
