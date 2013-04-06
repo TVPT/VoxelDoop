@@ -1,4 +1,4 @@
-package com.thevoxelbox.bukkit.doop.tools;
+package com.thevoxelbox.voxeldoop.tools;
 
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
@@ -9,22 +9,22 @@ import org.bukkit.event.block.Action;
 import org.bukkit.event.block.BlockPlaceEvent;
 import org.bukkit.inventory.ItemStack;
 
-import com.thevoxelbox.bukkit.doop.ITool;
+import com.thevoxelbox.voxeldoop.ITool;
 
 
-public class Pliers implements ITool
+public class Hammer implements ITool
 {
 
     @Override
     public String getName()
     {
-        return "Pliers";
+        return "Hammer";
     }
 
     @Override
     public Material getToolMaterial()
     {
-        return Material.IRON_PICKAXE;
+        return Material.GOLD_PICKAXE;
     }
 
     @Override
@@ -48,6 +48,7 @@ public class Pliers implements ITool
                         return;
                     }
                     targetBlock.getRelative(face.getOppositeFace()).setTypeIdAndData(targetBlock.getTypeId(), targetBlock.getData(), false);
+                    targetBlock.setTypeId(Material.AIR.getId(), false);
                 }
             }
         }
@@ -62,6 +63,7 @@ public class Pliers implements ITool
                 if (targetBlock.getRelative(face).isEmpty())
                 {
                     targetBlock.getRelative(face).setTypeIdAndData(targetBlock.getTypeId(), targetBlock.getData(), false);
+                    targetBlock.setTypeId(Material.AIR.getId(), false);
                 }
             }
         }
@@ -90,10 +92,15 @@ public class Pliers implements ITool
                     return;
                 }
                 block.getRelative(face).setTypeIdAndData(mat.getId(), data, false);
+                block.setTypeId(Material.AIR.getId(), false);
             }
             else
             {
                 this.moveBlock(block.getRelative(face), face, distence + 1, player);
+                if (block.getRelative(face).isEmpty())
+                {
+                    this.moveBlock(block, face, distence, player);
+                }
             }
         }
     }

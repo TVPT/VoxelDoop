@@ -1,4 +1,4 @@
-package com.thevoxelbox.bukkit.doop;
+package com.thevoxelbox.voxeldoop;
 
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
