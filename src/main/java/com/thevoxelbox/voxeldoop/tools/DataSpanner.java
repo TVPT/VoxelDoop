@@ -1,4 +1,4 @@
-package com.thevoxelbox.bukkit.doop.tools;
+package com.thevoxelbox.voxeldoop.tools;
 
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
@@ -9,7 +9,7 @@ import org.bukkit.event.block.Action;
 import org.bukkit.event.block.BlockPlaceEvent;
 import org.bukkit.inventory.ItemStack;
 
-import com.thevoxelbox.bukkit.doop.ITool;
+import com.thevoxelbox.voxeldoop.ITool;
 
 public class DataSpanner implements ITool
 {

@@ -1,4 +1,4 @@
-package com.thevoxelbox.bukkit.doop.util;
+package com.thevoxelbox.voxeldoop.util;
 
 import org.bukkit.Location;
 import org.bukkit.World;

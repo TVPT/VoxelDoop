@@ -1,4 +1,4 @@
-package com.thevoxelbox.bukkit.doop;
+package com.thevoxelbox.voxeldoop;
 
 import org.bukkit.Material;
 import org.bukkit.block.Block;
