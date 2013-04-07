@@ -1,4 +1,4 @@
-package com.thevoxelbox.bukkit.doop.tools;
+package com.thevoxelbox.voxeldoop.tools;
 
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
@@ -9,7 +9,7 @@ import org.bukkit.event.block.Action;
 import org.bukkit.event.block.BlockPlaceEvent;
 import org.bukkit.inventory.ItemStack;
 
-import com.thevoxelbox.bukkit.doop.ITool;
+import com.thevoxelbox.voxeldoop.ITool;
 
 
 public class Hammer implements ITool
@@ -28,8 +28,7 @@ public class Hammer implements ITool
     }
 
     @Override
-    public void onUse(final Block targetBlock, final BlockFace face,
-            final ItemStack itemUsed, final Player player, final Action action)
+    public void onUse(final Block targetBlock, final BlockFace face, final ItemStack itemUsed, final Player player, final Action action)
     {
         if (action == Action.LEFT_CLICK_BLOCK || action == Action.LEFT_CLICK_AIR)
         {
@@ -39,7 +38,7 @@ public class Hammer implements ITool
             }
             else
             {
-                if (targetBlock.getRelative(face).isEmpty())
+                if (targetBlock.getRelative(face.getOppositeFace()).isEmpty())
                 {
                     final BlockPlaceEvent placeEvent = new BlockPlaceEvent(targetBlock.getRelative(face), targetBlock.getRelative(face).getState(), null, new ItemStack(targetBlock.getRelative(face).getType(), 1), player, true);
                     Bukkit.getPluginManager().callEvent(placeEvent);
@@ -47,8 +46,12 @@ public class Hammer implements ITool
                     {
                         return;
                     }
-                    targetBlock.getRelative(face.getOppositeFace()).setTypeIdAndData(targetBlock.getTypeId(), targetBlock.getData(), false);
-                    targetBlock.setTypeId(Material.AIR.getId(), false);
+                    if (targetBlock.getType().isSolid())
+                    {
+                        targetBlock.getRelative(face.getOppositeFace()).setTypeIdAndData(targetBlock.getTypeId(), targetBlock.getData(), false);
+                        targetBlock.setTypeId(Material.AIR.getId(), false);
+                    }
+
                 }
             }
         }
@@ -70,18 +73,19 @@ public class Hammer implements ITool
     }
 
     @Override
-    public void onRangedUse(final Block targetBlock, final BlockFace face,
-            final ItemStack itemUsed, final Player player, final Action action)
+    public void onRangedUse(final Block targetBlock, final BlockFace face, final ItemStack itemUsed, final Player player, final Action action)
     {
-        this.onUse(targetBlock, face, itemUsed, player, action);
+        if (face != null)
+        {
+            this.onUse(targetBlock, face, itemUsed, player, action);
+        }
     }
 
-    private void moveBlock(final Block block, final BlockFace face,
-            final int distence, final Player player)
+    private void moveBlock(final Block block, final BlockFace face, final int distence, final Player player)
     {
         final Material mat = block.getType();
         final byte data = block.getData();
-        if (distence < 10)
+        if (distence < 25)
         {
             if (block.getRelative(face).isEmpty())
             {
@@ -91,8 +95,11 @@ public class Hammer implements ITool
                 {
                     return;
                 }
-                block.getRelative(face).setTypeIdAndData(mat.getId(), data, false);
-                block.setTypeId(Material.AIR.getId(), false);
+                if (mat.isSolid())
+                {
+                    block.getRelative(face).setTypeIdAndData(mat.getId(), data, false);
+                    block.setTypeId(Material.AIR.getId(), false);
+                }
             }
             else
             {

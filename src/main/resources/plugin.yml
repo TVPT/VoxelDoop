@@ -1,5 +1,5 @@
 name: ${project.name}
-main: com.thevoxelbox.bukkit.doop.VoxelDoop
+main: com.thevoxelbox.voxeldoop.VoxelDoop
 version: ${project.version}
 website: http://thevoxelbox.com
 author: TheCryoKnight

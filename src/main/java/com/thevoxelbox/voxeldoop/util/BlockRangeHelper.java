@@ -1,4 +1,4 @@
-package com.thevoxelbox.bukkit.doop.util;
+package com.thevoxelbox.voxeldoop.util;
 
 import org.bukkit.Location;
 import org.bukkit.World;
@@ -8,7 +8,7 @@ import org.bukkit.entity.Player;
 /**
  * @author Voxel
  */
-public class HitBlox {
+public class BlockRangeHelper {
 
     private Location player_loc;
     private double rot_x, rot_y, view_height, rot_xsin, rot_xcos, rot_ysin, rot_ycos;
@@ -25,13 +25,13 @@ public class HitBlox {
      * 
      * @param in_player
      */
-    public HitBlox(Player in_player, World world) {
+    public BlockRangeHelper(Player in_player, World world) {
         w = world;
         init(in_player.getLocation(), 250, 0.2, 1.65); // Reasonable default
         // values
     }
 
-    public HitBlox(Player p, World world, double maxRange) {
+    public BlockRangeHelper(Player p, World world, double maxRange) {
         w = world;
         init(p.getLocation(), maxRange, 0.2, 1.65);
         fromOffworld();
@@ -42,7 +42,7 @@ public class HitBlox {
      * 
      * @param in_location
      */
-    public HitBlox(Location in_location) {
+    public BlockRangeHelper(Location in_location) {
         init(in_location, 200, 0.2, 0);
     }
 
@@ -53,7 +53,7 @@ public class HitBlox {
      * @param in_range
      * @param in_step
      */
-    public HitBlox(Player in_player, int in_range, double in_step) {
+    public BlockRangeHelper(Player in_player, int in_range, double in_step) {
         init(in_player.getLocation(), in_range, in_step, 1.65);
     }
 
@@ -64,7 +64,7 @@ public class HitBlox {
      * @param in_range
      * @param in_step
      */
-    public HitBlox(Location in_location, int in_range, double in_step) {
+    public BlockRangeHelper(Location in_location, int in_range, double in_step) {
         w = in_location.getWorld();
         init(in_location, in_range, in_step, 0);
     }

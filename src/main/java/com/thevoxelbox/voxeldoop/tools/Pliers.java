@@ -1,4 +1,4 @@
-package com.thevoxelbox.bukkit.doop.tools;
+package com.thevoxelbox.voxeldoop.tools;
 
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
@@ -9,7 +9,7 @@ import org.bukkit.event.block.Action;
 import org.bukkit.event.block.BlockPlaceEvent;
 import org.bukkit.inventory.ItemStack;
 
-import com.thevoxelbox.bukkit.doop.ITool;
+import com.thevoxelbox.voxeldoop.ITool;
 
 
 public class Pliers implements ITool
@@ -71,7 +71,10 @@ public class Pliers implements ITool
     public void onRangedUse(final Block targetBlock, final BlockFace face,
             final ItemStack itemUsed, final Player player, final Action action)
     {
-        this.onUse(targetBlock, face, itemUsed, player, action);
+        if (face != null)
+        {
+            this.onUse(targetBlock, face, itemUsed, player, action);
+        }
     }
 
     private void moveBlock(final Block block, final BlockFace face,

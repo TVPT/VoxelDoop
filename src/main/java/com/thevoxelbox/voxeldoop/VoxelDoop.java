@@ -1,4 +1,4 @@
-package com.thevoxelbox.bukkit.doop;
+package com.thevoxelbox.voxeldoop;
 
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
@@ -6,12 +6,12 @@ import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.bukkit.plugin.java.JavaPlugin;
 
-import com.thevoxelbox.bukkit.doop.tools.DataSpanner;
-import com.thevoxelbox.bukkit.doop.tools.DoopStick;
-import com.thevoxelbox.bukkit.doop.tools.Hammer;
-import com.thevoxelbox.bukkit.doop.tools.Jackhammer;
-import com.thevoxelbox.bukkit.doop.tools.PaintBrush;
-import com.thevoxelbox.bukkit.doop.tools.Pliers;
+import com.thevoxelbox.voxeldoop.tools.DataSpanner;
+import com.thevoxelbox.voxeldoop.tools.DoopStick;
+import com.thevoxelbox.voxeldoop.tools.Hammer;
+import com.thevoxelbox.voxeldoop.tools.Jackhammer;
+import com.thevoxelbox.voxeldoop.tools.PaintBrush;
+import com.thevoxelbox.voxeldoop.tools.Pliers;
 
 public class VoxelDoop extends JavaPlugin
 {

@@ -1,4 +1,4 @@
-package com.thevoxelbox.bukkit.doop;
+package com.thevoxelbox.voxeldoop;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -11,9 +11,13 @@ import org.bukkit.entity.Player;
 import org.bukkit.event.block.Action;
 import org.bukkit.inventory.ItemStack;
 
-import com.thevoxelbox.bukkit.doop.util.HitBlox;
+import com.thevoxelbox.voxeldoop.util.BlockRangeHelper;
 
-
+/**
+ * Manages all tool registration, use, and permissions.
+ *
+ * @author TheCryoknight
+ */
 public class ToolManager
 {
     private static final String RANGED_PERM_PREFIX = "voxeldoop.ranged.";
@@ -44,16 +48,25 @@ public class ToolManager
     {
         if (this.registeredTools.containsKey(itemUsed.getType()))
         {
-            final HitBlox rangeHelper = new HitBlox(player, player.getWorld());
+            final BlockRangeHelper rangeHelper = new BlockRangeHelper(player, player.getWorld());
             final Block tarBlock = rangeHelper.getTargetBlock();
-            final BlockFace tarFace = rangeHelper.getFaceBlock().getFace(tarBlock);
-            if (tarBlock != null)
+            final Block previousBlock = rangeHelper.getLastBlock();
+            if (tarBlock != null && previousBlock != null)
             {
-                Validate.notNull(tarFace);
+                final BlockFace tarFace = tarBlock.getFace(previousBlock);
                 final ITool tool = this.registeredTools.get(itemUsed.getType());
                 if (player.hasPermission(ToolManager.RANGED_PERM_PREFIX + tool.getName().replaceAll(" ", "").toLowerCase()))
                 {
-                    tool.onRangedUse(tarBlock, tarFace, itemUsed, player, action);
+                    try
+                    {
+                        tool.onRangedUse(tarBlock, tarFace, itemUsed, player, action);
+                        itemUsed.setDurability((short) 0);
+                    }
+                    catch (final Exception e)
+                    {
+                        this.plugin.getLogger().severe("Tool Error: Could not pass ranged tool use to " + tool.getName());
+                        e.printStackTrace();
+                    }
                 }
             }
         }
@@ -66,8 +79,17 @@ public class ToolManager
             final ITool tool = this.registeredTools.get(itemUsed.getType());
             if (player.hasPermission(ToolManager.PERM_PREFIX + tool.getName().replaceAll(" ", "").toLowerCase()))
             {
-                Validate.notNull(tarFace);
-                this.registeredTools.get(itemUsed.getType()).onUse(tarBlock, tarFace, itemUsed, player, action);
+                try
+                {
+                    Validate.notNull(tarFace);
+                    this.registeredTools.get(itemUsed.getType()).onUse(tarBlock, tarFace, itemUsed, player, action);
+                    itemUsed.setDurability((short) 0);
+                }
+                catch (final Exception e)
+                {
+                    this.plugin.getLogger().severe("Tool Error: Could not pass tool use to " + tool.getName());
+                    e.printStackTrace();
+                }
                 return true;
             }
         }

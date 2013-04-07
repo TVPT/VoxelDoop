@@ -1,4 +1,4 @@
-package com.thevoxelbox.bukkit.doop.tools;
+package com.thevoxelbox.voxeldoop.tools;
 
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
@@ -9,7 +9,7 @@ import org.bukkit.event.block.Action;
 import org.bukkit.event.block.BlockPlaceEvent;
 import org.bukkit.inventory.ItemStack;
 
-import com.thevoxelbox.bukkit.doop.ITool;
+import com.thevoxelbox.voxeldoop.ITool;
 
 public class DataSpanner implements ITool
 {
@@ -26,7 +26,7 @@ public class DataSpanner implements ITool
     }
 
     @Override
-    public void onRangedUse(Block targetBlock, BlockFace face, ItemStack itemUsed, Player player, Action action)
+    public void onRangedUse(final Block targetBlock, final BlockFace face, final ItemStack itemUsed, final Player player, final Action action)
     {
         final BlockPlaceEvent placeEvent = new BlockPlaceEvent(targetBlock, targetBlock.getState(), null, new ItemStack(1, 1), player, true);
         Bukkit.getPluginManager().callEvent(placeEvent);
@@ -34,26 +34,25 @@ public class DataSpanner implements ITool
         {
             return;
         }
+        final byte maxDura = 15; // Constant because sometimes funky data values are useful
         if (action == Action.LEFT_CLICK_BLOCK || action == Action.LEFT_CLICK_AIR)
         {
-            final short maxDura = targetBlock.getType().getMaxDurability();
             if (targetBlock.getData() == 0)
             {
-                targetBlock.setData((byte) maxDura, false);
+                targetBlock.setData(maxDura, false);
             }
-            else if (targetBlock.getData() - 1 <= 0)
+            else
             {
                 targetBlock.setData((byte) (targetBlock.getData() - 1), false);
             }
         }
         else
         {
-            final short maxDura = targetBlock.getType().getMaxDurability();
             if (targetBlock.getData() == maxDura)
             {
                 targetBlock.setData((byte) 0, false);
             }
-            else if (targetBlock.getData() + 1 <= maxDura)
+            else
             {
                 targetBlock.setData((byte) (targetBlock.getData() + 1), false);
             }
@@ -61,7 +60,7 @@ public class DataSpanner implements ITool
     }
 
     @Override
-    public void onUse(Block targetBlock, BlockFace face, ItemStack itemUsed, Player player, Action action)
+    public void onUse(final Block targetBlock, final BlockFace face, final ItemStack itemUsed, final Player player, final Action action)
     {
         this.onRangedUse(targetBlock, face, itemUsed, player, action);
     }
