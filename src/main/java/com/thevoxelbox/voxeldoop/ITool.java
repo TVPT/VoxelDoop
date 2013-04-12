@@ -12,7 +12,7 @@ public interface ITool
     /**
      * Gets the name of this tool. The name of the tool can not be null or
      * empty.
-     * 
+     *
      * @return The tools name
      */
     String getName();
@@ -20,10 +20,17 @@ public interface ITool
     /**
      * Gets the material that the player will use to utilize this tool. Cannot
      * return null
-     * 
+     *
      * @return Tools material
      */
     Material getToolMaterial();
+
+    /**
+     * Sets the tools material that will call this tools use methods
+     *
+     * @param material Type of material fot this tool
+     */
+    void setToolMaterial(Material material);
 
     /**
      * Gets called when a player uses this tool from a range and the said player has the
@@ -50,7 +57,7 @@ public interface ITool
      * @param targetBlock
      *            The target block that the player is looking at
      * @param face
-     *            The face of the block that the player is looking at
+     *            The face of the block that the player is looking at, can be null
      * @param itemUsed
      *            The item stack that is in the players hand and being used
      *            at the time of the event

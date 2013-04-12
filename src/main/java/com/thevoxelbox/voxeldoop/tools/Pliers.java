@@ -9,22 +9,15 @@ import org.bukkit.event.block.Action;
 import org.bukkit.event.block.BlockPlaceEvent;
 import org.bukkit.inventory.ItemStack;
 
-import com.thevoxelbox.voxeldoop.ITool;
+import com.thevoxelbox.voxeldoop.AbstractTool;
+import com.thevoxelbox.voxeldoop.events.DoopSpreadEvent;
 
-
-public class Pliers implements ITool
+public class Pliers extends AbstractTool
 {
-
-    @Override
-    public String getName()
+    public Pliers()
     {
-        return "Pliers";
-    }
-
-    @Override
-    public Material getToolMaterial()
-    {
-        return Material.IRON_PICKAXE;
+        this.setName("Pliers");
+        this.setToolMaterial(Material.IRON_PICKAXE);
     }
 
     @Override
@@ -39,11 +32,11 @@ public class Pliers implements ITool
             }
             else
             {
-                if (targetBlock.getRelative(face).isEmpty())
+                if (targetBlock.getRelative(face.getOppositeFace()).isEmpty())
                 {
-                    final BlockPlaceEvent placeEvent = new BlockPlaceEvent(targetBlock.getRelative(face), targetBlock.getRelative(face).getState(), null, new ItemStack(targetBlock.getRelative(face).getType(), 1), player, true);
-                    Bukkit.getPluginManager().callEvent(placeEvent);
-                    if (placeEvent.isCancelled())
+                    final DoopSpreadEvent spreadEvent = new DoopSpreadEvent(targetBlock, face.getOppositeFace(), player);
+                    Bukkit.getPluginManager().callEvent(spreadEvent);
+                    if (spreadEvent.isCancelled())
                     {
                         return;
                     }
@@ -55,12 +48,24 @@ public class Pliers implements ITool
         {
             if (player.isSneaking())
             {
+                final DoopSpreadEvent spreadEvent = new DoopSpreadEvent(targetBlock, face, player);
+                Bukkit.getPluginManager().callEvent(spreadEvent);
+                if (spreadEvent.isCancelled())
+                {
+                    return;
+                }
                 this.moveBlock(targetBlock, face, 0, player);
             }
             else
             {
                 if (targetBlock.getRelative(face).isEmpty())
                 {
+                    final DoopSpreadEvent spreadEvent = new DoopSpreadEvent(targetBlock, face.getOppositeFace(), player);
+                    Bukkit.getPluginManager().callEvent(spreadEvent);
+                    if (spreadEvent.isCancelled())
+                    {
+                        return;
+                    }
                     targetBlock.getRelative(face).setTypeIdAndData(targetBlock.getTypeId(), targetBlock.getData(), false);
                 }
             }
@@ -82,7 +87,7 @@ public class Pliers implements ITool
     {
         final Material mat = block.getType();
         final byte data = block.getData();
-        if (distence < 10)
+        if (distence < 25)
         {
             if (block.getRelative(face).isEmpty())
             {

@@ -9,27 +9,21 @@ import org.bukkit.block.Block;
 import org.bukkit.block.BlockFace;
 import org.bukkit.entity.Player;
 import org.bukkit.event.block.Action;
-import org.bukkit.event.block.BlockPlaceEvent;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 
-import com.thevoxelbox.voxeldoop.ITool;
+import com.thevoxelbox.voxeldoop.AbstractTool;
+import com.thevoxelbox.voxeldoop.events.DoopPaintEvent;
+import com.thevoxelbox.voxeldoop.util.BlockInfoWrapper;
 
-
-public class PaintBrush implements ITool
+public class PaintBrush extends AbstractTool
 {
     private final String brushLore = "VoxelBox Magic Paintbrush";
 
-    @Override
-    public String getName()
+    public PaintBrush()
     {
-        return "Paint Brush";
-    }
-
-    @Override
-    public Material getToolMaterial()
-    {
-        return Material.SLIME_BALL;
+        this.setName("Paint Brush");
+        this.setToolMaterial(Material.SLIME_BALL);
     }
 
     @Override
@@ -46,17 +40,16 @@ public class PaintBrush implements ITool
         }
         else
         {
-            final Material targetMat = this.getMeterialFromBrush(itemUsed.getItemMeta());
-            if (targetMat != null)
+            final BlockInfoWrapper wrapper = this.getMeterialAndDataFromBrush(itemUsed.getItemMeta());
+            if (wrapper.getMaterial() != null)
             {
-                final byte data = this.getDataFromBrush(itemUsed.getItemMeta());
-                final BlockPlaceEvent placeEvent = new BlockPlaceEvent(targetBlock, targetBlock.getState(), null, new ItemStack(targetMat, 1), player, true);
-                Bukkit.getPluginManager().callEvent(placeEvent);
-                if (placeEvent.isCancelled())
+                final DoopPaintEvent paintEvent = new DoopPaintEvent(targetBlock, player, wrapper.getMaterial(), wrapper.getData());
+                Bukkit.getPluginManager().callEvent(paintEvent);
+                if (paintEvent.isCancelled())
                 {
                     return;
                 }
-                targetBlock.setTypeIdAndData(targetMat.getId(), data, false);
+                targetBlock.setTypeIdAndData(paintEvent.getTargetMaterial().getId(), paintEvent.getTargetData(), false);
             }
         }
     }
@@ -70,7 +63,7 @@ public class PaintBrush implements ITool
         }
     }
 
-    private Material getMeterialFromBrush(final ItemMeta item)
+    private BlockInfoWrapper getMeterialAndDataFromBrush(final ItemMeta item)
     {
         if (item.hasLore())
         {
@@ -79,27 +72,13 @@ public class PaintBrush implements ITool
             {
                 if (lore.get(0).equals(this.brushLore))
                 {
-                    return Material.getMaterial(lore.get(1));
+                    return new BlockInfoWrapper(Material.getMaterial(lore.get(1)), Byte.parseByte(lore.get(2)));
                 }
             }
         }
         return null;
     }
-    private byte getDataFromBrush(final ItemMeta item)
-    {
-        if (item.hasLore())
-        {
-            List<String> lore = item.getLore();
-            if (lore.size() == 3)
-            {
-                if (lore.get(0).equals(this.brushLore))
-                {
-                    return Byte.parseByte(lore.get(2));
-                }
-            }
-        }
-        return 0;
-    }
+
     private void setBrushMeterial(final ItemStack itemApplyed, final ItemMeta item, final Material mat, final byte data)
     {
         item.setDisplayName(this.getFriendlyBlockName(mat.toString()) + "Paintbrush");
@@ -110,6 +89,7 @@ public class PaintBrush implements ITool
         item.setLore(lore);
         itemApplyed.setItemMeta(item);
     }
+
     private String getFriendlyBlockName(final String rawName)
     {
         final String[] split = rawName.toLowerCase().split("_");

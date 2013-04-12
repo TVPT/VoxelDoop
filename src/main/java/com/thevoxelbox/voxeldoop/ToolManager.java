@@ -44,6 +44,7 @@ public class ToolManager
         this.plugin.getLogger().info("Registered tool: " + newTool.getName());
     }
 
+    @SuppressWarnings("deprecation")
     public void onRangedUse(final Player player, final ItemStack itemUsed, Action action)
     {
         if (this.registeredTools.containsKey(itemUsed.getType()))
@@ -61,6 +62,8 @@ public class ToolManager
                     {
                         tool.onRangedUse(tarBlock, tarFace, itemUsed, player, action);
                         itemUsed.setDurability((short) 0);
+                        player.updateInventory();
+                        
                     }
                     catch (final Exception e)
                     {
@@ -72,6 +75,7 @@ public class ToolManager
         }
     }
 
+    @SuppressWarnings("deprecation")
     public boolean onUse(final Player player, final ItemStack itemUsed, Action action, Block tarBlock, BlockFace tarFace)
     {
         if (this.registeredTools.containsKey(itemUsed.getType()))
@@ -84,6 +88,7 @@ public class ToolManager
                     Validate.notNull(tarFace);
                     this.registeredTools.get(itemUsed.getType()).onUse(tarBlock, tarFace, itemUsed, player, action);
                     itemUsed.setDurability((short) 0);
+                    player.updateInventory();
                 }
                 catch (final Exception e)
                 {

@@ -6,30 +6,23 @@ import org.bukkit.block.Block;
 import org.bukkit.block.BlockFace;
 import org.bukkit.entity.Player;
 import org.bukkit.event.block.Action;
-import org.bukkit.event.block.BlockBreakEvent;
 import org.bukkit.inventory.ItemStack;
 
-import com.thevoxelbox.voxeldoop.ITool;
+import com.thevoxelbox.voxeldoop.AbstractTool;
+import com.thevoxelbox.voxeldoop.events.DoopDestroyEvent;
 
-
-public class Jackhammer implements ITool
+public class Jackhammer extends AbstractTool
 {
-    @Override
-    public String getName()
+    public Jackhammer()
     {
-        return "Jackhammer";
-    }
-
-    @Override
-    public Material getToolMaterial()
-    {
-        return Material.DIAMOND_PICKAXE;
+        this.setName("Jackhammer");
+        this.setToolMaterial(Material.DIAMOND_PICKAXE);
     }
 
     @Override
     public void onUse(Block targetBlock, final BlockFace face, ItemStack itemUsed, Player player, Action action)
     {
-        BlockBreakEvent breakEvent = new BlockBreakEvent(targetBlock, player);
+        final DoopDestroyEvent breakEvent = new DoopDestroyEvent(targetBlock, player);
         Bukkit.getPluginManager().callEvent(breakEvent);
         if (breakEvent.isCancelled())
         {
@@ -50,7 +43,7 @@ public class Jackhammer implements ITool
     {
         if (player.isSneaking())
         {
-            BlockBreakEvent breakEvent = new BlockBreakEvent(targetBlock, player);
+            final DoopDestroyEvent breakEvent = new DoopDestroyEvent(targetBlock, player);
             Bukkit.getPluginManager().callEvent(breakEvent);
             if (breakEvent.isCancelled())
             {

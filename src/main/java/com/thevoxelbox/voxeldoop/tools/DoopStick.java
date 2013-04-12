@@ -7,22 +7,15 @@ import org.bukkit.entity.Player;
 import org.bukkit.event.block.Action;
 import org.bukkit.inventory.ItemStack;
 
-import com.thevoxelbox.voxeldoop.ITool;
+import com.thevoxelbox.voxeldoop.AbstractTool;
 
 
-public class DoopStick implements ITool
+public class DoopStick extends AbstractTool
 {
-
-    @Override
-    public String getName()
+    public DoopStick()
     {
-        return "Dooplicator";
-    }
-
-    @Override
-    public Material getToolMaterial()
-    {
-        return Material.STONE_AXE;
+        this.setName("Dooplicator");
+        this.setToolMaterial(Material.STONE_AXE);
     }
 
     @Override

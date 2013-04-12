@@ -6,25 +6,16 @@ import org.bukkit.block.Block;
 import org.bukkit.block.BlockFace;
 import org.bukkit.entity.Player;
 import org.bukkit.event.block.Action;
-import org.bukkit.event.block.BlockPlaceEvent;
 import org.bukkit.inventory.ItemStack;
+import com.thevoxelbox.voxeldoop.AbstractTool;
+import com.thevoxelbox.voxeldoop.events.DoopSpreadEvent;
 
-import com.thevoxelbox.voxeldoop.ITool;
-
-
-public class Hammer implements ITool
+public class Hammer extends AbstractTool
 {
-
-    @Override
-    public String getName()
+    public Hammer()
     {
-        return "Hammer";
-    }
-
-    @Override
-    public Material getToolMaterial()
-    {
-        return Material.GOLD_PICKAXE;
+        this.setName("Hammer");
+        this.setToolMaterial(Material.GOLD_PICKAXE);
     }
 
     @Override
@@ -40,14 +31,15 @@ public class Hammer implements ITool
             {
                 if (targetBlock.getRelative(face.getOppositeFace()).isEmpty())
                 {
-                    final BlockPlaceEvent placeEvent = new BlockPlaceEvent(targetBlock.getRelative(face), targetBlock.getRelative(face).getState(), null, new ItemStack(targetBlock.getRelative(face).getType(), 1), player, true);
-                    Bukkit.getPluginManager().callEvent(placeEvent);
-                    if (placeEvent.isCancelled())
-                    {
-                        return;
-                    }
+
                     if (targetBlock.getType().isSolid())
                     {
+                        final DoopSpreadEvent spreadEvent = new DoopSpreadEvent(targetBlock, face.getOppositeFace(), player);
+                        Bukkit.getPluginManager().callEvent(spreadEvent);
+                        if (spreadEvent.isCancelled())
+                        {
+                            return;
+                        }
                         targetBlock.getRelative(face.getOppositeFace()).setTypeIdAndData(targetBlock.getTypeId(), targetBlock.getData(), false);
                         targetBlock.setTypeId(Material.AIR.getId(), false);
                     }
@@ -65,6 +57,12 @@ public class Hammer implements ITool
             {
                 if (targetBlock.getRelative(face).isEmpty())
                 {
+                    final DoopSpreadEvent spreadEvent = new DoopSpreadEvent(targetBlock, face, player);
+                    Bukkit.getPluginManager().callEvent(spreadEvent);
+                    if (spreadEvent.isCancelled())
+                    {
+                        return;
+                    }
                     targetBlock.getRelative(face).setTypeIdAndData(targetBlock.getTypeId(), targetBlock.getData(), false);
                     targetBlock.setTypeId(Material.AIR.getId(), false);
                 }
@@ -89,9 +87,9 @@ public class Hammer implements ITool
         {
             if (block.getRelative(face).isEmpty())
             {
-                final BlockPlaceEvent placeEvent = new BlockPlaceEvent(block.getRelative(face), block.getRelative(face).getState(), null, new ItemStack(block.getRelative(face).getType(), 1), player, true);
-                Bukkit.getPluginManager().callEvent(placeEvent);
-                if (placeEvent.isCancelled())
+                final DoopSpreadEvent spreadEvent = new DoopSpreadEvent(block, face, player);
+                Bukkit.getPluginManager().callEvent(spreadEvent);
+                if (spreadEvent.isCancelled())
                 {
                     return;
                 }
