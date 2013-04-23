@@ -1,5 +1,6 @@
 package com.thevoxelbox.voxeldoop;
 
+import java.io.File;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -11,6 +12,7 @@ import org.bukkit.entity.Player;
 import org.bukkit.event.block.Action;
 import org.bukkit.inventory.ItemStack;
 
+import com.thevoxelbox.voxeldoop.configuration.Configuration;
 import com.thevoxelbox.voxeldoop.util.BlockRangeHelper;
 
 /**
@@ -35,6 +37,7 @@ public class ToolManager
     public void registerTool(final ITool newTool)
     {
         Validate.notNull(newTool, "You cannot register null tools");
+        this.loadToolConfig(newTool);
         Validate.notNull(newTool.getToolMaterial(), "You cannot register tools without a tool material");
         Validate.notNull(newTool.getName(), "You cannot register tools with no name");
         Validate.isTrue(!newTool.getName().isEmpty(), "You cannot register tools with no name");
@@ -99,5 +102,10 @@ public class ToolManager
             }
         }
         return false;
+    }
+
+    private void loadToolConfig(final ITool tool)
+    {
+        Configuration.loadConfiguration(new File("plugins" + File.separator + "VoxelDoop" + File.separator + tool.getName().replaceAll(" ", "") + ".properties"), tool);
     }
 }

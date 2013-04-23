@@ -15,7 +15,7 @@ public class DoopPaintEvent extends DoopEvent
     public DoopPaintEvent(final Block targetBlock, final Player toolUser, final Material tarMaterial, final byte tarData)
     {
         super(targetBlock, toolUser);
-        if (this.targetMaterial.isBlock())
+        if (tarMaterial.isBlock())
         {
             this.targetMaterial = tarMaterial;
         }

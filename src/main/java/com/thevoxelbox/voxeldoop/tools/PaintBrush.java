@@ -13,12 +13,14 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 
 import com.thevoxelbox.voxeldoop.AbstractTool;
+import com.thevoxelbox.voxeldoop.configuration.ConfigurationGetter;
+import com.thevoxelbox.voxeldoop.configuration.ConfigurationSetter;
 import com.thevoxelbox.voxeldoop.events.DoopPaintEvent;
 import com.thevoxelbox.voxeldoop.util.BlockInfoWrapper;
 
 public class PaintBrush extends AbstractTool
 {
-    private final String brushLore = "VoxelBox Magic Paintbrush";
+    private String brushLore = "VoxelBox Magic Paintbrush";
 
     public PaintBrush()
     {
@@ -41,6 +43,10 @@ public class PaintBrush extends AbstractTool
         else
         {
             final BlockInfoWrapper wrapper = this.getMeterialAndDataFromBrush(itemUsed.getItemMeta());
+            if (wrapper == null)
+            {
+                return;
+            }
             if (wrapper.getMaterial() != null)
             {
                 final DoopPaintEvent paintEvent = new DoopPaintEvent(targetBlock, player, wrapper.getMaterial(), wrapper.getData());
@@ -104,5 +110,17 @@ public class PaintBrush extends AbstractTool
             builder.append(cStr).append(" ");
         }
         return builder.toString();
+    }
+
+    @ConfigurationGetter("brush-lore")
+    public String getBrushLore()
+    {
+        return brushLore;
+    }
+
+    @ConfigurationSetter("brush-lore")
+    public void setBrushLore(final String brushLore)
+    {
+        this.brushLore = brushLore;
     }
 }

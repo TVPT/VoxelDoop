@@ -36,6 +36,7 @@ public class DataSpanner extends AbstractTool
                     return;
                 }
                 targetBlock.setData(paintEvent.getTargetData(), false);
+                this.updatePlayersOfBlockChange(targetBlock);
             }
             else
             {
@@ -47,6 +48,7 @@ public class DataSpanner extends AbstractTool
                     return;
                 }
                 targetBlock.setData(paintEvent.getTargetData(), false);
+                this.updatePlayersOfBlockChange(targetBlock);
             }
         }
         else
@@ -61,6 +63,7 @@ public class DataSpanner extends AbstractTool
                     return;
                 }
                 targetBlock.setData(paintEvent.getTargetData(), false);
+                this.updatePlayersOfBlockChange(targetBlock);
             }
             else
             {
@@ -72,6 +75,7 @@ public class DataSpanner extends AbstractTool
                     return;
                 }
                 targetBlock.setData(paintEvent.getTargetData(), false);
+                this.updatePlayersOfBlockChange(targetBlock);
             }
         }
     }

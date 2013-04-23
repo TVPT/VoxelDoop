@@ -12,6 +12,8 @@ import com.thevoxelbox.voxeldoop.tools.Hammer;
 import com.thevoxelbox.voxeldoop.tools.Jackhammer;
 import com.thevoxelbox.voxeldoop.tools.PaintBrush;
 import com.thevoxelbox.voxeldoop.tools.Pliers;
+import com.thevoxelbox.voxeldoop.tools.Shovel;
+import com.thevoxelbox.voxeldoop.tools.Watch;
 
 public class VoxelDoop extends JavaPlugin
 {
@@ -34,7 +36,14 @@ public class VoxelDoop extends JavaPlugin
         this.toolManager.registerTool(new Hammer());
         this.toolManager.registerTool(new Pliers());
         this.toolManager.registerTool(new DataSpanner());
+        this.toolManager.registerTool(new Watch());
+        this.toolManager.registerTool(new Shovel());
+    }
 
+    @Override
+    public void onDisable()
+    {
+        
     }
 
     @Override
@@ -114,7 +123,7 @@ public class VoxelDoop extends JavaPlugin
                 godmsg = (godmsg + str + " ");
             }
 
-            Bukkit.broadcastMessage(ChatColor.DARK_PURPLE + "[IGNORANCE] " + godmsg);
+            Bukkit.broadcastMessage(ChatColor.DARK_PURPLE + "[IGNORANCE] " + godmsg.toLowerCase());
 
             return true;
         }
@@ -122,6 +131,8 @@ public class VoxelDoop extends JavaPlugin
     }
 
     /**
+     * Gets the tool manager that handles all tool use and registration.
+     *
      * @return the tool manager
      */
     public ToolManager getToolManager() {

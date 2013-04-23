@@ -10,10 +10,14 @@ import org.bukkit.event.block.BlockPlaceEvent;
 import org.bukkit.inventory.ItemStack;
 
 import com.thevoxelbox.voxeldoop.AbstractTool;
+import com.thevoxelbox.voxeldoop.configuration.ConfigurationGetter;
+import com.thevoxelbox.voxeldoop.configuration.ConfigurationSetter;
 import com.thevoxelbox.voxeldoop.events.DoopSpreadEvent;
 
 public class Pliers extends AbstractTool
 {
+    private static int MAX_PUSH_PULL_THRESHOLD = 25;
+
     public Pliers()
     {
         this.setName("Pliers");
@@ -87,7 +91,7 @@ public class Pliers extends AbstractTool
     {
         final Material mat = block.getType();
         final byte data = block.getData();
-        if (distence < 25)
+        if (distence < MAX_PUSH_PULL_THRESHOLD)
         {
             if (block.getRelative(face).isEmpty())
             {
@@ -104,5 +108,17 @@ public class Pliers extends AbstractTool
                 this.moveBlock(block.getRelative(face), face, distence + 1, player);
             }
         }
+    }
+
+    @ConfigurationGetter("max-push-pull-distance")
+    public int getMaxPushPullThreshold()
+    {
+        return MAX_PUSH_PULL_THRESHOLD;
+    }
+
+    @ConfigurationSetter("max-push-pull-distance")
+    public void setMaxPushPullThreshold(final int MaxPushPullThreshold)
+    {
+        MAX_PUSH_PULL_THRESHOLD = MaxPushPullThreshold;
     }
 }

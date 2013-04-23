@@ -18,10 +18,13 @@ public class DoopListener implements Listener
     @EventHandler
     public void onBlockPlace(BlockPlaceEvent event)
     {
-        ItemStack eis = event.getItemInHand();
-        if (eis.getAmount() < 32 && eis.getType().isBlock())
+        ItemStack placedItem = event.getItemInHand();
+        if (placedItem != null)
         {
-            eis.setAmount(64);
+            if (placedItem.getAmount() == 32 && placedItem.getType().isBlock())
+            {
+                placedItem.setAmount(64);
+            }
         }
     }
 

@@ -8,10 +8,13 @@ import org.bukkit.entity.Player;
 import org.bukkit.event.block.Action;
 import org.bukkit.inventory.ItemStack;
 import com.thevoxelbox.voxeldoop.AbstractTool;
+import com.thevoxelbox.voxeldoop.configuration.ConfigurationGetter;
+import com.thevoxelbox.voxeldoop.configuration.ConfigurationSetter;
 import com.thevoxelbox.voxeldoop.events.DoopSpreadEvent;
 
 public class Hammer extends AbstractTool
 {
+    private static int MAX_PUSH_PULL_THRESHOLD = 25;
     public Hammer()
     {
         this.setName("Hammer");
@@ -42,6 +45,8 @@ public class Hammer extends AbstractTool
                         }
                         targetBlock.getRelative(face.getOppositeFace()).setTypeIdAndData(targetBlock.getTypeId(), targetBlock.getData(), false);
                         targetBlock.setTypeId(Material.AIR.getId(), false);
+                        this.updatePlayersOfBlockChange(targetBlock);
+                        this.updatePlayersOfBlockChange(targetBlock.getRelative(face.getOppositeFace()));
                     }
 
                 }
@@ -65,6 +70,8 @@ public class Hammer extends AbstractTool
                     }
                     targetBlock.getRelative(face).setTypeIdAndData(targetBlock.getTypeId(), targetBlock.getData(), false);
                     targetBlock.setTypeId(Material.AIR.getId(), false);
+                    this.updatePlayersOfBlockChange(targetBlock);
+                    this.updatePlayersOfBlockChange(targetBlock.getRelative(face));
                 }
             }
         }
@@ -83,7 +90,7 @@ public class Hammer extends AbstractTool
     {
         final Material mat = block.getType();
         final byte data = block.getData();
-        if (distence < 25)
+        if (distence < MAX_PUSH_PULL_THRESHOLD)
         {
             if (block.getRelative(face).isEmpty())
             {
@@ -97,6 +104,8 @@ public class Hammer extends AbstractTool
                 {
                     block.getRelative(face).setTypeIdAndData(mat.getId(), data, false);
                     block.setTypeId(Material.AIR.getId(), false);
+                    this.updatePlayersOfBlockChange(block);
+                    this.updatePlayersOfBlockChange(block.getRelative(face));
                 }
             }
             else
@@ -108,5 +117,17 @@ public class Hammer extends AbstractTool
                 }
             }
         }
+    }
+
+    @ConfigurationGetter("max-push-pull-distance")
+    public int getMaxPushPullThreshold()
+    {
+        return MAX_PUSH_PULL_THRESHOLD;
+    }
+
+    @ConfigurationSetter("max-push-pull-distance")
+    public void setMaxPushPullThreshold(final int MaxPushPullThreshold)
+    {
+        MAX_PUSH_PULL_THRESHOLD = MaxPushPullThreshold;
     }
 }

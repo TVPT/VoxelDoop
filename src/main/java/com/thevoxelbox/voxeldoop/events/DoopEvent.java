@@ -10,6 +10,7 @@ public abstract class DoopEvent extends BlockEvent implements Cancellable
 {
     private boolean cancelled = false;
     private final Player toolUser;
+    private static final HandlerList HANDLER_LIST2 = new HandlerList();
 
     public DoopEvent(final Block targetBlock, final Player toolUser)
     {
@@ -23,9 +24,6 @@ public abstract class DoopEvent extends BlockEvent implements Cancellable
     }
 
     @Override
-    public abstract HandlerList getHandlers();
-
-    @Override
     public boolean isCancelled()
     {
         return this.cancelled;
@@ -35,5 +33,10 @@ public abstract class DoopEvent extends BlockEvent implements Cancellable
     public void setCancelled(final boolean cancelled)
     {
         this.cancelled = cancelled;
+    }
+
+    public static HandlerList getHandlerList()
+    {
+        return HANDLER_LIST2;
     }
 }

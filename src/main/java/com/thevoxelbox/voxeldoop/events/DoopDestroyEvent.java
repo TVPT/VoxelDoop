@@ -4,6 +4,11 @@ import org.bukkit.block.Block;
 import org.bukkit.entity.Player;
 import org.bukkit.event.HandlerList;
 
+/**
+ * Gets called when a doop tool removes a block
+ *
+ * @author TheCryoknight
+ */
 public class DoopDestroyEvent extends DoopEvent
 {
     private static final HandlerList HANDLER_LIST = new HandlerList();

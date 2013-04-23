@@ -3,6 +3,7 @@ main: com.thevoxelbox.voxeldoop.VoxelDoop
 version: ${project.version}
 website: http://thevoxelbox.com
 author: TheCryoKnight
+softdepend: [VoxelGuest]
 description: >
              Provides a quick and easy way to duplicate blocks with no chat commands. Also includes a suite of efficient hand tools for manual building.
 commands:
