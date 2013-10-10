@@ -6,15 +6,14 @@ import org.bukkit.block.Block;
 import org.bukkit.block.BlockFace;
 import org.bukkit.entity.Player;
 import org.bukkit.event.block.Action;
-import org.bukkit.event.block.BlockPlaceEvent;
 import org.bukkit.inventory.ItemStack;
 
-import com.thevoxelbox.voxeldoop.AbstractTool;
+import com.thevoxelbox.voxeldoop.BlockRemoveingTool;
 import com.thevoxelbox.voxeldoop.configuration.ConfigurationGetter;
 import com.thevoxelbox.voxeldoop.configuration.ConfigurationSetter;
 import com.thevoxelbox.voxeldoop.events.DoopSpreadEvent;
 
-public class Pliers extends AbstractTool
+public class Pliers extends BlockRemoveingTool
 {
     private static int MAX_PUSH_PULL_THRESHOLD = 25;
 
@@ -30,6 +29,7 @@ public class Pliers extends AbstractTool
     {
         if (action == Action.LEFT_CLICK_BLOCK || action == Action.LEFT_CLICK_AIR)
         {
+            if (!this.canBreak(player, targetBlock)) return;
             if (player.isSneaking())
             {
                 this.moveBlock(targetBlock, face.getOppositeFace(), 0, player);
@@ -95,7 +95,8 @@ public class Pliers extends AbstractTool
         {
             if (block.getRelative(face).isEmpty())
             {
-                final BlockPlaceEvent placeEvent = new BlockPlaceEvent(block.getRelative(face), block.getRelative(face).getState(), null, new ItemStack(block.getRelative(face).getType(), 1), player, true);
+                if (!this.canBreak(player, block.getRelative(face))) return;
+                final DoopSpreadEvent placeEvent = new DoopSpreadEvent(block.getRelative(face), face, player);
                 Bukkit.getPluginManager().callEvent(placeEvent);
                 if (placeEvent.isCancelled())
                 {

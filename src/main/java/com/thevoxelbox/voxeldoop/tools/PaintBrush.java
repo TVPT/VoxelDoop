@@ -12,13 +12,13 @@ import org.bukkit.event.block.Action;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 
-import com.thevoxelbox.voxeldoop.AbstractTool;
+import com.thevoxelbox.voxeldoop.BlockRemoveingTool;
 import com.thevoxelbox.voxeldoop.configuration.ConfigurationGetter;
 import com.thevoxelbox.voxeldoop.configuration.ConfigurationSetter;
 import com.thevoxelbox.voxeldoop.events.DoopPaintEvent;
 import com.thevoxelbox.voxeldoop.util.BlockInfoWrapper;
 
-public class PaintBrush extends AbstractTool
+public class PaintBrush extends BlockRemoveingTool
 {
     private String brushLore = "VoxelBox Magic Paintbrush";
 
@@ -49,6 +49,7 @@ public class PaintBrush extends AbstractTool
             }
             if (wrapper.getMaterial() != null)
             {
+                if (!this.canBreak(player, targetBlock)) return;
                 final DoopPaintEvent paintEvent = new DoopPaintEvent(targetBlock, player, wrapper.getMaterial(), wrapper.getData());
                 Bukkit.getPluginManager().callEvent(paintEvent);
                 if (paintEvent.isCancelled())
@@ -61,7 +62,7 @@ public class PaintBrush extends AbstractTool
     }
 
     @Override
-    public void onRangedUse(Block targetBlock, final BlockFace face, final ItemStack itemUsed, Player player, Action action)
+    public void onRangedUse(final Block targetBlock, final BlockFace face, final ItemStack itemUsed, Player player, Action action)
     {
         if ((action == Action.LEFT_CLICK_BLOCK || action == Action.LEFT_CLICK_AIR) && !targetBlock.isLiquid())
         {
