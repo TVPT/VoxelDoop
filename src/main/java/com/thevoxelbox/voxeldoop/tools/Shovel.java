@@ -13,12 +13,12 @@ import org.bukkit.entity.Player;
 import org.bukkit.event.block.Action;
 import org.bukkit.inventory.ItemStack;
 
-import com.thevoxelbox.voxeldoop.AbstractTool;
+import com.thevoxelbox.voxeldoop.BlockRemoveingTool;
 import com.thevoxelbox.voxeldoop.configuration.ConfigurationGetter;
 import com.thevoxelbox.voxeldoop.configuration.ConfigurationSetter;
 import com.thevoxelbox.voxeldoop.events.DoopDestroyEvent;
 
-public class Shovel extends AbstractTool
+public class Shovel extends BlockRemoveingTool
 {
     private static final Material[] DEFAULT_MASK = {
         Material.DIRT,
@@ -59,13 +59,14 @@ public class Shovel extends AbstractTool
                             final Block curBlock = tarWorld.getBlockAt(ix, iy, iz);
                             if (this.isInMask(curBlock.getType()))
                             {
+                                if (!this.canBreak(player, curBlock)) continue;
                                 final DoopDestroyEvent breakEvent = new DoopDestroyEvent(curBlock, player);
                                 Bukkit.getPluginManager().callEvent(breakEvent);
                                 if (breakEvent.isCancelled())
                                 {
                                     continue;
                                 }
-                                curBlock.setTypeId(0);
+                                curBlock.setType(Material.AIR);
                             }
                         }
                     }
@@ -80,13 +81,14 @@ public class Shovel extends AbstractTool
                         final Block curBlock = tarWorld.getBlockAt(ix, tarY, iz);
                         if (this.isInMask(curBlock.getType()))
                         {
+                            if (!this.canBreak(player, curBlock)) continue;
                             final DoopDestroyEvent breakEvent = new DoopDestroyEvent(curBlock, player);
                             Bukkit.getPluginManager().callEvent(breakEvent);
                             if (breakEvent.isCancelled())
                             {
                                 continue;
                             }
-                            curBlock.setTypeId(0);
+                            curBlock.setType(Material.AIR);
                         }
                     }
                 }
@@ -97,13 +99,14 @@ public class Shovel extends AbstractTool
                         final Block curBlock = tarWorld.getBlockAt(ix, tarY, iz);
                         if (this.isInMask(curBlock.getType()))
                         {
+                            if (!this.canBreak(player, curBlock)) continue;
                             final DoopDestroyEvent breakEvent = new DoopDestroyEvent(curBlock, player);
                             Bukkit.getPluginManager().callEvent(breakEvent);
                             if (breakEvent.isCancelled())
                             {
                                 continue;
                             }
-                            curBlock.setTypeId(0);
+                            curBlock.setType(Material.AIR);
                         }
                     }
                 }
@@ -120,13 +123,14 @@ public class Shovel extends AbstractTool
                         final Block curBlock = tarWorld.getBlockAt(ix, iy, iz);
                         if (this.isInMask(curBlock.getType()))
                         {
+                            if (!this.canBreak(player, curBlock)) continue;
                             final DoopDestroyEvent breakEvent = new DoopDestroyEvent(curBlock, player);
                             Bukkit.getPluginManager().callEvent(breakEvent);
                             if (breakEvent.isCancelled())
                             {
                                 continue;
                             }
-                            curBlock.setTypeId(0);
+                            curBlock.setType(Material.AIR);
                         }
                     }
                 }
@@ -140,13 +144,14 @@ public class Shovel extends AbstractTool
                         final Block curBlock = tarWorld.getBlockAt(ix, iy, iz);
                         if (this.isInMask(curBlock.getType()))
                         {
+                            if (!this.canBreak(player, curBlock)) continue;
                             final DoopDestroyEvent breakEvent = new DoopDestroyEvent(curBlock, player);
                             Bukkit.getPluginManager().callEvent(breakEvent);
                             if (breakEvent.isCancelled())
                             {
                                 continue;
                             }
-                            curBlock.setTypeId(0);
+                            curBlock.setType(Material.AIR);
                         }
                     }
                 }
@@ -160,13 +165,14 @@ public class Shovel extends AbstractTool
                         final Block curBlock = tarWorld.getBlockAt(ix, iy, iz);
                         if (this.isInMask(curBlock.getType()))
                         {
+                            if (!this.canBreak(player, curBlock)) continue;
                             final DoopDestroyEvent breakEvent = new DoopDestroyEvent(curBlock, player);
                             Bukkit.getPluginManager().callEvent(breakEvent);
                             if (breakEvent.isCancelled())
                             {
                                 continue;
                             }
-                            curBlock.setTypeId(0);
+                            curBlock.setType(Material.AIR);
                         }
                     }
                 }
