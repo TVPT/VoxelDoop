@@ -1,9 +1,5 @@
 package com.thevoxelbox.voxeldoop.tools;
 
-import java.util.Arrays;
-import java.util.HashSet;
-import java.util.Set;
-
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.block.Block;
@@ -12,15 +8,11 @@ import org.bukkit.entity.Player;
 import org.bukkit.event.block.Action;
 import org.bukkit.inventory.ItemStack;
 
-import com.thevoxelbox.voxeldoop.AbstractTool;
-import com.thevoxelbox.voxeldoop.configuration.ConfigurationGetter;
-import com.thevoxelbox.voxeldoop.configuration.ConfigurationSetter;
+import com.thevoxelbox.voxeldoop.BlockRemoveingTool;
 import com.thevoxelbox.voxeldoop.events.DoopDestroyEvent;
 
-public class Jackhammer extends AbstractTool
+public class Jackhammer extends BlockRemoveingTool
 {
-    private Set<Material> unbreakableBlocks = new HashSet<>();
-
     public Jackhammer()
     {
         this.setName("Jackhammer");
@@ -38,7 +30,7 @@ public class Jackhammer extends AbstractTool
         }
         if (action == Action.LEFT_CLICK_BLOCK || action == Action.LEFT_CLICK_AIR)
         {
-            targetBlock.setTypeId(Material.AIR.getId(), true);
+            targetBlock.setType(Material.AIR);
             this.updatePlayersOfBlockChange(targetBlock);
         }
         else
@@ -61,44 +53,15 @@ public class Jackhammer extends AbstractTool
             }
             if (action == Action.LEFT_CLICK_BLOCK || action == Action.LEFT_CLICK_AIR)
             {
-                if (this.unbreakableBlocks.contains(targetBlock.getType())) return;
-                targetBlock.setTypeId(Material.AIR.getId(), true);
+                if (!this.canBreak(player, targetBlock)) return;
+                targetBlock.setType(Material.AIR);
                 this.updatePlayersOfBlockChange(targetBlock);
             }
             else
             {
-                if (this.unbreakableBlocks.contains(targetBlock.getType())) return;
+                if (!this.canBreak(player, targetBlock)) return;
                 targetBlock.setTypeId(Material.AIR.getId(), false);
                 this.updatePlayersOfBlockChange(targetBlock);
-            }
-        }
-    }
-
-    @ConfigurationGetter("unbreakable-blocks")
-    public int[] getUnbreakable()
-    {
-        final int[] unbreakIDs = new int[unbreakableBlocks.size()];
-        final Material[] unbreakMats = unbreakableBlocks.toArray(new Material[unbreakableBlocks.size()]);
-        for (int i = 0; i < unbreakMats.length; i++)
-        {
-            unbreakIDs[i] = unbreakMats[i].getId();
-        }
-        Arrays.sort(unbreakIDs);
-        return unbreakIDs;
-    }
-
-    @ConfigurationSetter("unbreakable-blocks")
-    public void setUnbreakable(final int[] unbreakableIds)
-    {
-        for (int unbreakId : unbreakableIds)
-        {
-            final Material unbreakMat = Material.getMaterial(unbreakId);
-            if (unbreakMat != null)
-            {
-                if (unbreakMat.isBlock())
-                {
-                    this.unbreakableBlocks.add(unbreakMat);
-                }
             }
         }
     }

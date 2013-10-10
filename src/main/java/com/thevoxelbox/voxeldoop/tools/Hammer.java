@@ -7,12 +7,13 @@ import org.bukkit.block.BlockFace;
 import org.bukkit.entity.Player;
 import org.bukkit.event.block.Action;
 import org.bukkit.inventory.ItemStack;
-import com.thevoxelbox.voxeldoop.AbstractTool;
+
+import com.thevoxelbox.voxeldoop.BlockRemoveingTool;
 import com.thevoxelbox.voxeldoop.configuration.ConfigurationGetter;
 import com.thevoxelbox.voxeldoop.configuration.ConfigurationSetter;
 import com.thevoxelbox.voxeldoop.events.DoopSpreadEvent;
 
-public class Hammer extends AbstractTool
+public class Hammer extends BlockRemoveingTool
 {
     private static int MAX_PUSH_PULL_THRESHOLD = 25;
     public Hammer()
@@ -26,6 +27,7 @@ public class Hammer extends AbstractTool
     {
         if (action == Action.LEFT_CLICK_BLOCK || action == Action.LEFT_CLICK_AIR)
         {
+            if (!this.canBreak(player, targetBlock)) return;
             if (player.isSneaking())
             {
                 this.moveBlock(targetBlock, face.getOppositeFace(), 0, player);
@@ -62,6 +64,7 @@ public class Hammer extends AbstractTool
             {
                 if (targetBlock.getRelative(face).isEmpty())
                 {
+                    if (!this.canBreak(player, targetBlock.getRelative(face))) return;
                     final DoopSpreadEvent spreadEvent = new DoopSpreadEvent(targetBlock, face, player);
                     Bukkit.getPluginManager().callEvent(spreadEvent);
                     if (spreadEvent.isCancelled())
@@ -94,6 +97,7 @@ public class Hammer extends AbstractTool
         {
             if (block.getRelative(face).isEmpty())
             {
+                if (!this.canBreak(player, block)) return;
                 final DoopSpreadEvent spreadEvent = new DoopSpreadEvent(block, face, player);
                 Bukkit.getPluginManager().callEvent(spreadEvent);
                 if (spreadEvent.isCancelled())

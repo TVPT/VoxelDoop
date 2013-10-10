@@ -4,6 +4,7 @@ import com.google.common.base.Preconditions;
 import com.google.gson.Gson;
 
 import java.io.File;
+import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
@@ -28,8 +29,10 @@ public final class Configuration
      * @param targetObject      The object which is supposed to be filled with variables from the configuration file.
      *
      * @return Returns a boolean indicating whether the loading was successful. (true = success)
+     * @throws IOException 
+     * @throws FileNotFoundException 
      */
-    public static boolean loadConfiguration(final File configurationFile, final Object targetObject)
+    public static boolean loadConfiguration(final File configurationFile, final Object targetObject) throws FileNotFoundException, IOException
     {
         Preconditions.checkNotNull(configurationFile, "Configuration File cannot be null.");
         Preconditions.checkNotNull(targetObject, "Target Object cannot be null.");
@@ -59,11 +62,6 @@ public final class Configuration
                         }
                     }
                 }
-            }
-            catch (IOException e)
-            {
-                e.printStackTrace();
-                return false;
             }
             catch (InvocationTargetException e)
             {
@@ -100,8 +98,9 @@ public final class Configuration
      * @param sourceObject      The object which is supposed to be saved.
      *
      * @return Returns a boolean indicating whether the operation was successful or not. (true = success)
+     * @throws IOException 
      */
-    public static boolean saveConfiguration(final File configurationFile, final Object sourceObject)
+    public static boolean saveConfiguration(final File configurationFile, final Object sourceObject) throws IOException
     {
         Preconditions.checkNotNull(configurationFile, "Configuration File cannot be null.");
         Preconditions.checkNotNull(sourceObject, "Source Object cannot be null.");
@@ -124,11 +123,6 @@ public final class Configuration
                 }
             }
             properties.store(fileWriter, null);
-        }
-        catch (IOException e)
-        {
-            e.printStackTrace();
-            return false;
         }
         catch (InvocationTargetException e)
         {

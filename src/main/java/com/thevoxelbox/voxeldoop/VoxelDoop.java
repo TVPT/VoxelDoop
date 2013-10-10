@@ -6,6 +6,7 @@ import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.bukkit.plugin.java.JavaPlugin;
 
+import com.thevoxelbox.voxeldoop.tools.Chainsaw;
 import com.thevoxelbox.voxeldoop.tools.DataSpanner;
 import com.thevoxelbox.voxeldoop.tools.DoopStick;
 import com.thevoxelbox.voxeldoop.tools.Hammer;
@@ -38,6 +39,7 @@ public class VoxelDoop extends JavaPlugin
         this.toolManager.registerTool(new DataSpanner());
         this.toolManager.registerTool(new Watch());
         this.toolManager.registerTool(new Shovel());
+        this.toolManager.registerTool(new Chainsaw());
     }
 
     @Override

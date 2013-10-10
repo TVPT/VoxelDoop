@@ -106,6 +106,14 @@ public class ToolManager
 
     private void loadToolConfig(final ITool tool)
     {
-        Configuration.loadConfiguration(new File("plugins" + File.separator + "VoxelDoop" + File.separator + tool.getName().replaceAll(" ", "") + ".properties"), tool);
+        try
+        {
+            Configuration.loadConfiguration(new File("plugins" + File.separator + "VoxelDoop" + File.separator + tool.getName().replaceAll(" ", "") + ".properties"), tool);
+        }
+        catch(final Exception e)
+        {
+            this.plugin.getLogger().severe("Tool Error: Could not load tool config for" + tool.getName());
+            e.printStackTrace();
+        }
     }
 }
