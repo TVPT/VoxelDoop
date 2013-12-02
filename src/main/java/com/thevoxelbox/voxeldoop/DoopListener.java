@@ -37,7 +37,7 @@ public class DoopListener implements Listener
             if(event.getAction() == Action.RIGHT_CLICK_BLOCK)
             {
                 ItemStack hand = event.getPlayer().getItemInHand();
-                if(hand.getAmount() <= 32) hand.setAmount(64);
+                if(hand.getAmount() <= 32 && hand.getAmount() >= 2) hand.setAmount(64);
             }
             if (event.getClickedBlock() == null)
             {
