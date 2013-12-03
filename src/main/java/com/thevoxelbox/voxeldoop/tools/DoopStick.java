@@ -38,7 +38,10 @@ public class DoopStick extends AbstractTool
     {
         if (action == Action.LEFT_CLICK_BLOCK || action == Action.LEFT_CLICK_AIR)
         {
-            return;
+            if (unDoopable.contains(targetBlock.getType())) return;
+            final ItemStack addedItem = new ItemStack(targetBlock.getType(), 1, (short) targetBlock.getData());
+            player.getInventory().addItem(addedItem);
+            player.updateInventory();
         }
         else
         {
